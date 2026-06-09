@@ -24,6 +24,27 @@
                     HeightRequest="200"
                     IsReadOnly="True"
                     Placeholder="Aqui aparecera el texto OCR..."/>
+            <Label Text="Eventos detectados:"
+                   FontSize="18"
+                   FontAttributes="Bold"/>
+
+            <CollectionView x:Name="EventsCollection">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="12" Margin="0.6">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Title}"
+                                       FontAttributes="Bold"/>
+                                <Label Text="{Binding Start, StringFormat='Inicio: {0:dd/MM/yyyy HH:mm}'}"/>
+                                <Label Text="{Binding End, StringFormat='Fin: {0:dd/MM/yyyy HH:mm}'}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Text="Guardar en Calendario"
+                    Clicked="OnSaveEventsClicked"/>
 
         </VerticalStackLayout>
     </ScrollView>

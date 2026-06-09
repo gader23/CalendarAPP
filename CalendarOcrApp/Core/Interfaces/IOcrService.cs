@@ -9,6 +9,6 @@ namespace CalendarOcrApp.Core.Interfaces
 
     public interface IOcrService
     {
-        Task<string> ReconizeTextAsync(Stream image);
+        Task<string> RecognizeTextAsync(Stream image);
     }
 }

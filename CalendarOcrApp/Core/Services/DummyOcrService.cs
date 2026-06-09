@@ -11,7 +11,14 @@ namespace CalendarOcrApp.Core.Services
     {
         public Task<string> RecognizeTextAsync(Stream image)
         {
-            return Task.FromResult("Texto OCR de prueba");
+            var fakeText = """
+            1 Reunión 10:00
+            2 Dentista 17:30
+            5 Cumpleaños Lucas 20:00
+            8 Gym 19:00
+            12 Cena 21:30
+            """;
+            return Task.FromResult(fakeText);
         }
     }
 }

@@ -22,6 +22,7 @@ namespace CalendarOcrApp
 #endif
             builder.Services.AddSingleton<IOcrService, DummyOcrService>();
             builder.Services.AddSingleton<ICalendarService, DummyCalendarService>();
+            builder.Services.AddSingleton<IEventParser, SimpleEventParser>();
             builder.Services.AddSingleton<MainPage>();
 
             return builder.Build();
