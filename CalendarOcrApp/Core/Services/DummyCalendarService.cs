@@ -10,7 +10,15 @@ namespace CalendarOcrApp.Core.Services
 {
     internal class DummyCalendarService : ICalendarService
     {
-        public Task AddEventAsync(IEnumerable<CalendarEventModel> events)
+        public Task<List<DeviceCalendarModel>> GetCalendarsAsync()
+        {
+            return Task.FromResult(new List<DeviceCalendarModel>());
+        }
+        public Task AddEventAsync(IEnumerable<CalendarEventModel> events, long calendarId)
+        {
+            return Task.CompletedTask;
+        }
+        public Task OpenEventEditorAsync(CalendarEventModel calendarEvent)
         {
             return Task.CompletedTask;
         }

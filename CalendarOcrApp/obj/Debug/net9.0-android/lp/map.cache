@@ -5,6 +5,7 @@ Microsoft.Maui.Controls.Xaml.dll
 Microsoft.Maui.dll
 Microsoft.Maui.Essentials.dll
 Microsoft.Maui.Graphics.dll
+TesseractOcrMaui.dll
 Xamarin.Android.Glide.Annotations.dll
 Xamarin.Android.Glide.DiskLruCache.dll
 Xamarin.Android.Glide.dll
@@ -158,6 +159,7 @@ Microsoft.Maui.Controls.aar
 maui.aar
 Microsoft.Maui.aar
 Microsoft.Maui.Essentials.aar
+TesseractOcrMaui.aar
 Xamarin.Android.Glide.Annotations.aar
 Xamarin.Android.Glide.DiskLruCache.aar
 glide.aar

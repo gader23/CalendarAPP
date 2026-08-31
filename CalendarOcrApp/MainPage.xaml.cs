@@ -24,26 +24,69 @@ namespace CalendarOcrApp
         {
             try
             {
-                var result = await MediaPicker.PickPhotoAsync();
+                var photo = await MediaPicker.PickPhotoAsync(
+                    new MediaPickerOptions
+                    {
+                        Title = "Selecciona una imagen del calendario"
+                    });
 
-                if (result == null)
+                if (photo == null)
                     return;
-                // Mostrar imagen seleccionada
-                SelectedImage.Source = ImageSource.FromFile(result.FullPath);
-                SelectedImage.IsVisible = true;
 
-                // Abrir Stream y pasar al OCR
-                using var stream = await result.OpenReadAsync();
-                var text = await _ocrService.RecognizeTextAsync(stream);
+                await using var imageStream = await photo.OpenReadAsync();
 
-                OcrResultEditor.Text = text;
+                string detectedText = await _ocrService.RecognizeTextAsync(imageStream);
+                
+                if(string.IsNullOrWhiteSpace(detectedText))
+                {
+                    await DisplayAlert("Sin Texto",
+                        "No se ha detectado texto en la imagen.",
+                        "Aceptar");
+                    return;
+                }
 
-                _detectedEvents = _eventParser.Parse(text, 2026, 5);
-                EventsCollection.ItemsSource = _detectedEvents;
+                System.Diagnostics.Debug.WriteLine(
+                    "===== TEXTO OCR =====");
+                System.Diagnostics.Debug.WriteLine(detectedText);
+                System.Diagnostics.Debug.WriteLine("====================");
+
+                OcrResultEditor.Text = detectedText;
+
+                int year = DateTime.Now.Year;
+                int month = DateTime.Now.Month;
+
+                var events = _eventParser.Parse(
+                    detectedText,
+                    year,
+                    month);
+
+                _detectedEvents.Clear();
+
+                foreach (var calendarEvent in events)
+                {
+                    _detectedEvents.Add(calendarEvent);
+                }
+
+                //if (photo == null)
+                //    return;
+                //// Mostrar imagen seleccionada
+                //SelectedImage.Source = ImageSource.FromFile(photo.FullPath);
+                //SelectedImage.IsVisible = true;
+
+                //// Abrir Stream y pasar al OCR
+                //using var stream = await photo.OpenReadAsync();
+                //var text = await _ocrService.RecognizeTextAsync(stream);
+
+                //OcrResultEditor.Text = text;
+
+                //_detectedEvents = _eventParser.Parse(text, 2026, 5);
+                //EventsCollection.ItemsSource = _detectedEvents;
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Error", ex.Message, "OK");
+
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
         }
 
@@ -54,8 +97,40 @@ namespace CalendarOcrApp
                 await DisplayAlert("Sin Eventos", "No hay eventos detectados para guardar.", "OK");
                 return;
             }
-            await _calendarService.AddEventAsync(_detectedEvents);
+            var calendars = await _calendarService.GetCalendarsAsync();
+
+            if(calendars.Count == 0)
+            {
+                try
+                {
+                    await _calendarService.OpenEventEditorAsync(_detectedEvents[0]);
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Error", ex.Message, "Aceptar");
+                }
+                return;
+            }
+            
+            var options = calendars
+                .Select(c => $"{c.Name} - {c.AccountName} ({c.AccountType})")
+                .ToArray();
+
+            var selected = await DisplayActionSheet(
+                "Elige calendario",
+                "Cancelar",
+                null,
+                options);
+
+            if (selected == "Cancelar" || selected == null)
+                return;
+
+            var index = Array.IndexOf(options, selected);
+            var calendar = calendars[index];
+
+            await _calendarService.AddEventAsync(_detectedEvents, calendar.Id);
             await DisplayAlert("Guardar", $"Se guardarian {_detectedEvents.Count} eventos.", "OK");
+            await DisplayAlert("Calendario", $"Eventos guardados en: {calendar.Name}", "OK");
         }
     }
 }
