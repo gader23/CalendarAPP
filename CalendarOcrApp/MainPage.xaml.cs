@@ -1,136 +1,173 @@
-﻿using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using CalendarOcrApp.Core.Interfaces;
 using CalendarOcrApp.Core.Models;
+using CalendarOcrApp.Core.Services;
 
 namespace CalendarOcrApp
 {
     public partial class MainPage : ContentPage
     {
-        private readonly IOcrService _ocrService;
-        private readonly IEventParser _eventParser;
+        private readonly IEventExtractor _eventExtractor;
         private readonly ICalendarService _calendarService;
-        private List<CalendarEventModel> _detectedEvents = new();
-      
-        public MainPage(IOcrService ocrService,IEventParser eventParser, ICalendarService calendarService)
+        private readonly ObservableCollection<ExtractedEvent> _events = new();
+
+        public MainPage(IEventExtractor eventExtractor, ICalendarService calendarService)
         {
             InitializeComponent();
 
-            _ocrService = ocrService;
-            _eventParser = eventParser;
+            _eventExtractor = eventExtractor;
             _calendarService = calendarService;
+
+            BindableLayout.SetItemsSource(EventsLayout, _events);
+
+            var culture = new CultureInfo("es-ES");
+            MonthPicker.ItemsSource = culture.DateTimeFormat.MonthNames
+                .Take(12)
+                .Select(name => char.ToUpper(name[0], culture) + name[1..])
+                .ToList();
+
+            MonthPicker.SelectedIndex = DateTime.Now.Month - 1;
+            YearEntry.Text = DateTime.Now.Year.ToString();
         }
 
-        private async void OnPickImageClicked(object sender, EventArgs e)
+        private async void OnPickImageClicked(object? sender, EventArgs e)
         {
             try
             {
-                var photo = await MediaPicker.PickPhotoAsync(
-                    new MediaPickerOptions
-                    {
-                        Title = "Selecciona una imagen del calendario"
-                    });
+                var photo = await MediaPicker.PickPhotoAsync(new MediaPickerOptions
+                {
+                    Title = "Selecciona una foto del calendario"
+                });
 
                 if (photo == null)
                     return;
 
-                await using var imageStream = await photo.OpenReadAsync();
+                SelectedImage.Source = ImageSource.FromFile(photo.FullPath);
+                SelectedImage.IsVisible = true;
 
-                string detectedText = await _ocrService.RecognizeTextAsync(imageStream);
-                
-                if(string.IsNullOrWhiteSpace(detectedText))
+                SetBusy(true, "Leyendo el calendario...");
+
+                await using var imageStream = await photo.OpenReadAsync();
+                var result = await _eventExtractor.ExtractAsync(imageStream);
+
+                _events.Clear();
+                foreach (var extracted in result.Events)
+                    _events.Add(extracted);
+
+                bool periodDetected = result.Month is >= 1 and <= 12 && result.Year is > 0;
+
+                // Si no se detectó, se dejan los valores actuales y se avisa al usuario.
+                if (result.Month is >= 1 and <= 12)
+                    MonthPicker.SelectedIndex = result.Month.Value - 1;
+
+                if (result.Year is > 0)
+                    YearEntry.Text = result.Year.Value.ToString();
+
+                PeriodHintLabel.IsVisible = !periodDetected;
+
+                if (_events.Count == 0)
                 {
-                    await DisplayAlert("Sin Texto",
-                        "No se ha detectado texto en la imagen.",
+                    await DisplayAlert("Sin eventos",
+                        "No se ha detectado ningún evento en la foto.",
+                        "Aceptar");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                await DisplayAlert("Error", ex.Message, "Aceptar");
+            }
+            finally
+            {
+                SetBusy(false);
+            }
+        }
+
+        private void OnDeleteEventClicked(object? sender, EventArgs e)
+        {
+            if (sender is Button { BindingContext: ExtractedEvent extracted })
+                _events.Remove(extracted);
+        }
+
+        private async void OnSaveEventsClicked(object? sender, EventArgs e)
+        {
+            try
+            {
+                if (_events.Count == 0)
+                {
+                    await DisplayAlert("Sin eventos", "No hay eventos para guardar.", "Aceptar");
+                    return;
+                }
+
+                if (MonthPicker.SelectedIndex < 0 ||
+                    !int.TryParse(YearEntry.Text, out int year) || year < 2000 || year > 2100)
+                {
+                    await DisplayAlert("Mes y año", "Indica un mes y un año válidos.", "Aceptar");
+                    return;
+                }
+
+                int month = MonthPicker.SelectedIndex + 1;
+
+                var calendarEvents = ExtractionMapper.ToCalendarEvents(_events, year, month, out int skipped);
+
+                if (calendarEvents.Count == 0)
+                {
+                    await DisplayAlert("Sin eventos válidos",
+                        "Ningún evento tiene un día válido para ese mes. Revisa los días.",
                         "Aceptar");
                     return;
                 }
 
-                System.Diagnostics.Debug.WriteLine(
-                    "===== TEXTO OCR =====");
-                System.Diagnostics.Debug.WriteLine(detectedText);
-                System.Diagnostics.Debug.WriteLine("====================");
+                var calendars = await _calendarService.GetCalendarsAsync();
 
-                OcrResultEditor.Text = detectedText;
-
-                int year = DateTime.Now.Year;
-                int month = DateTime.Now.Month;
-
-                var events = _eventParser.Parse(
-                    detectedText,
-                    year,
-                    month);
-
-                _detectedEvents.Clear();
-
-                foreach (var calendarEvent in events)
+                if (calendars.Count == 0)
                 {
-                    _detectedEvents.Add(calendarEvent);
+                    // Sin lista de calendarios (p. ej. iOS por ahora): abrir el editor del sistema
+                    // con el primer evento.
+                    await _calendarService.OpenEventEditorAsync(calendarEvents[0]);
+                    return;
                 }
 
-                //if (photo == null)
-                //    return;
-                //// Mostrar imagen seleccionada
-                //SelectedImage.Source = ImageSource.FromFile(photo.FullPath);
-                //SelectedImage.IsVisible = true;
+                var options = calendars
+                    .Select(c => $"{c.Name} - {c.AccountName}")
+                    .ToArray();
 
-                //// Abrir Stream y pasar al OCR
-                //using var stream = await photo.OpenReadAsync();
-                //var text = await _ocrService.RecognizeTextAsync(stream);
+                var selected = await DisplayActionSheet("Elige calendario", "Cancelar", null, options);
 
-                //OcrResultEditor.Text = text;
+                if (selected == null || selected == "Cancelar")
+                    return;
 
-                //_detectedEvents = _eventParser.Parse(text, 2026, 5);
-                //EventsCollection.ItemsSource = _detectedEvents;
+                int index = Array.IndexOf(options, selected);
+                if (index < 0)
+                    return;
+
+                var calendar = calendars[index];
+
+                await _calendarService.AddEventAsync(calendarEvents, calendar.Id);
+
+                string message = $"Se han guardado {calendarEvents.Count} eventos en \"{calendar.Name}\".";
+                if (skipped > 0)
+                    message += $" {skipped} se han omitido por tener un día o título no válido.";
+
+                await DisplayAlert("Guardado", message, "Aceptar");
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", ex.Message, "OK");
-
-                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                System.Diagnostics.Debug.WriteLine(ex);
+                await DisplayAlert("Error", ex.Message, "Aceptar");
             }
         }
 
-        private async void OnSaveEventsClicked(object sender, EventArgs e)
+        private void SetBusy(bool busy, string? status = null)
         {
-            if(_detectedEvents.Count == 0)
-            {
-                await DisplayAlert("Sin Eventos", "No hay eventos detectados para guardar.", "OK");
-                return;
-            }
-            var calendars = await _calendarService.GetCalendarsAsync();
+            BusyIndicator.IsVisible = busy;
+            BusyIndicator.IsRunning = busy;
+            PickButton.IsEnabled = !busy;
+            SaveButton.IsEnabled = !busy;
 
-            if(calendars.Count == 0)
-            {
-                try
-                {
-                    await _calendarService.OpenEventEditorAsync(_detectedEvents[0]);
-                }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Error", ex.Message, "Aceptar");
-                }
-                return;
-            }
-            
-            var options = calendars
-                .Select(c => $"{c.Name} - {c.AccountName} ({c.AccountType})")
-                .ToArray();
-
-            var selected = await DisplayActionSheet(
-                "Elige calendario",
-                "Cancelar",
-                null,
-                options);
-
-            if (selected == "Cancelar" || selected == null)
-                return;
-
-            var index = Array.IndexOf(options, selected);
-            var calendar = calendars[index];
-
-            await _calendarService.AddEventAsync(_detectedEvents, calendar.Id);
-            await DisplayAlert("Guardar", $"Se guardarian {_detectedEvents.Count} eventos.", "OK");
-            await DisplayAlert("Calendario", $"Eventos guardados en: {calendar.Name}", "OK");
+            StatusLabel.Text = status ?? string.Empty;
+            StatusLabel.IsVisible = busy && !string.IsNullOrEmpty(status);
         }
     }
 }

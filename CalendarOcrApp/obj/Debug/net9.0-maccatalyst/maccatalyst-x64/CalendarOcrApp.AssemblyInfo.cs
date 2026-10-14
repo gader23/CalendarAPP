@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CalendarOcrApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+1b002dbe7a133a96253d8bbc2975bc483a27590c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+cb81dd11a55bb9500fab514246c8ba575875d4b8")]
 [assembly: System.Reflection.AssemblyProductAttribute("CalendarOcrApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CalendarOcrApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QXVASewTYy8=",
+  "dgSpecHash": "sRhJ+eQKRfM=",
   "success": true,
   "projectFilePath": "D:\\Devs\\CalendarOcrApp\\CalendarOcrApp\\CalendarOcrApp.csproj",
   "expectedPackageFiles": [
@@ -29,8 +29,6 @@
     "C:\\Users\\gabyc\\.nuget\\packages\\microsoft.web.webview2\\1.0.3179.45\\microsoft.web.webview2.1.0.3179.45.nupkg.sha512",
     "C:\\Users\\gabyc\\.nuget\\packages\\microsoft.windows.sdk.buildtools\\10.0.22621.756\\microsoft.windows.sdk.buildtools.10.0.22621.756.nupkg.sha512",
     "C:\\Users\\gabyc\\.nuget\\packages\\microsoft.windowsappsdk\\1.7.250606001\\microsoft.windowsappsdk.1.7.250606001.nupkg.sha512",
-    "C:\\Users\\gabyc\\.nuget\\packages\\tesseractocrmaui\\1.5.2\\tesseractocrmaui.1.5.2.nupkg.sha512",
-    "C:\\Users\\gabyc\\.nuget\\packages\\tesseractocrmaui.ios\\1.2.3\\tesseractocrmaui.ios.1.2.3.nupkg.sha512",
     "C:\\Users\\gabyc\\.nuget\\packages\\xamarin.android.glide\\4.16.0.12\\xamarin.android.glide.4.16.0.12.nupkg.sha512",
     "C:\\Users\\gabyc\\.nuget\\packages\\xamarin.android.glide.annotations\\4.16.0.12\\xamarin.android.glide.annotations.4.16.0.12.nupkg.sha512",
     "C:\\Users\\gabyc\\.nuget\\packages\\xamarin.android.glide.disklrucache\\4.16.0.12\\xamarin.android.glide.disklrucache.4.16.0.12.nupkg.sha512",

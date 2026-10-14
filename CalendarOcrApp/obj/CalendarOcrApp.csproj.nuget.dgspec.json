@@ -80,10 +80,6 @@
               "target": "Package",
               "version": "[9.0.17, )",
               "autoReferenced": true
-            },
-            "TesseractOcrMaui": {
-              "target": "Package",
-              "version": "[1.5.2, )"
             }
           },
           "imports": [
@@ -123,10 +119,6 @@
               "target": "Package",
               "version": "[9.0.17, )",
               "autoReferenced": true
-            },
-            "TesseractOcrMaui": {
-              "target": "Package",
-              "version": "[1.5.2, )"
             }
           },
           "imports": [
@@ -166,10 +158,6 @@
               "target": "Package",
               "version": "[9.0.17, )",
               "autoReferenced": true
-            },
-            "TesseractOcrMaui": {
-              "target": "Package",
-              "version": "[1.5.2, )"
             }
           },
           "imports": [
@@ -204,10 +192,6 @@
             "Microsoft.Maui.Controls": {
               "target": "Package",
               "version": "[9.0.111, )"
-            },
-            "TesseractOcrMaui": {
-              "target": "Package",
-              "version": "[1.5.2, )"
             }
           },
           "imports": [
@@ -245,7 +229,7 @@
         "android-x64": {
           "#import": []
         },
-        "iossimulator-x64": {
+        "iossimulator-arm64": {
           "#import": []
         },
         "maccatalyst-x64": {

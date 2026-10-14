@@ -429,19 +429,6 @@
           "build/Microsoft.NET.ILLink.Tasks.props": {}
         }
       },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-android35.0/TesseractOcrMaui.dll": {
-            "related": ".aar;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-android35.0/TesseractOcrMaui.dll": {
-            "related": ".aar;.xml"
-          }
-        }
-      },
       "Xamarin.Android.Glide/4.16.0.12": {
         "type": "package",
         "dependencies": {
@@ -2734,19 +2721,6 @@
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
-        }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-android35.0/TesseractOcrMaui.dll": {
-            "related": ".aar;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-android35.0/TesseractOcrMaui.dll": {
-            "related": ".aar;.xml"
-          }
         }
       },
       "Xamarin.Android.Glide/4.16.0.12": {
@@ -5043,19 +5017,6 @@
           "build/Microsoft.NET.ILLink.Tasks.props": {}
         }
       },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-android35.0/TesseractOcrMaui.dll": {
-            "related": ".aar;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-android35.0/TesseractOcrMaui.dll": {
-            "related": ".aar;.xml"
-          }
-        }
-      },
       "Xamarin.Android.Glide/4.16.0.12": {
         "type": "package",
         "dependencies": {
@@ -6922,7 +6883,7 @@
         }
       }
     },
-    "net9.0-android35.0/iossimulator-x64": {
+    "net9.0-android35.0/iossimulator-arm64": {
       "GoogleGson/2.13.0.1": {
         "type": "package",
         "dependencies": {
@@ -7348,19 +7309,6 @@
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
-        }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-android35.0/TesseractOcrMaui.dll": {
-            "related": ".aar;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-android35.0/TesseractOcrMaui.dll": {
-            "related": ".aar;.xml"
-          }
         }
       },
       "Xamarin.Android.Glide/4.16.0.12": {
@@ -9657,19 +9605,6 @@
           "build/Microsoft.NET.ILLink.Tasks.props": {}
         }
       },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-android35.0/TesseractOcrMaui.dll": {
-            "related": ".aar;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-android35.0/TesseractOcrMaui.dll": {
-            "related": ".aar;.xml"
-          }
-        }
-      },
       "Xamarin.Android.Glide/4.16.0.12": {
         "type": "package",
         "dependencies": {
@@ -11964,19 +11899,6 @@
           "build/Microsoft.NET.ILLink.Tasks.props": {}
         }
       },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-android35.0/TesseractOcrMaui.dll": {
-            "related": ".aar;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-android35.0/TesseractOcrMaui.dll": {
-            "related": ".aar;.xml"
-          }
-        }
-      },
       "Xamarin.Android.Glide/4.16.0.12": {
         "type": "package",
         "dependencies": {
@@ -14243,35 +14165,6 @@
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
         }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "dependencies": {
-          "TesseractOcrMaui.IOS": "1.2.3"
-        },
-        "compile": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "TesseractOcrMaui.IOS/1.2.3": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.dll": {
-            "related": ".resources/manifest;.resources/tesseract.xcframework/Info.plist;.resources/tesseract.xcframework/ios-arm64/tesseract.framework/tesseract;.resources/tesseract.xcframework/ios-arm64_x86_64-simulator/tesseract.framework/tesseract;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.dll": {
-            "related": ".resources/manifest;.resources/tesseract.xcframework/Info.plist;.resources/tesseract.xcframework/ios-arm64/tesseract.framework/tesseract;.resources/tesseract.xcframework/ios-arm64_x86_64-simulator/tesseract.framework/tesseract;.xml"
-          }
-        }
       }
     },
     "net9.0-ios26.0/android-arm64": {
@@ -14673,35 +14566,6 @@
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
-        }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "dependencies": {
-          "TesseractOcrMaui.IOS": "1.2.3"
-        },
-        "compile": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "TesseractOcrMaui.IOS/1.2.3": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.dll": {
-            "related": ".resources/manifest;.resources/tesseract.xcframework/Info.plist;.resources/tesseract.xcframework/ios-arm64/tesseract.framework/tesseract;.resources/tesseract.xcframework/ios-arm64_x86_64-simulator/tesseract.framework/tesseract;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.dll": {
-            "related": ".resources/manifest;.resources/tesseract.xcframework/Info.plist;.resources/tesseract.xcframework/ios-arm64/tesseract.framework/tesseract;.resources/tesseract.xcframework/ios-arm64_x86_64-simulator/tesseract.framework/tesseract;.xml"
-          }
         }
       }
     },
@@ -15105,38 +14969,9 @@
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
         }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "dependencies": {
-          "TesseractOcrMaui.IOS": "1.2.3"
-        },
-        "compile": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "TesseractOcrMaui.IOS/1.2.3": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.dll": {
-            "related": ".resources/manifest;.resources/tesseract.xcframework/Info.plist;.resources/tesseract.xcframework/ios-arm64/tesseract.framework/tesseract;.resources/tesseract.xcframework/ios-arm64_x86_64-simulator/tesseract.framework/tesseract;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.dll": {
-            "related": ".resources/manifest;.resources/tesseract.xcframework/Info.plist;.resources/tesseract.xcframework/ios-arm64/tesseract.framework/tesseract;.resources/tesseract.xcframework/ios-arm64_x86_64-simulator/tesseract.framework/tesseract;.xml"
-          }
-        }
       }
     },
-    "net9.0-ios26.0/iossimulator-x64": {
+    "net9.0-ios26.0/iossimulator-arm64": {
       "Microsoft.Extensions.Configuration/9.0.8": {
         "type": "package",
         "dependencies": {
@@ -15535,35 +15370,6 @@
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
-        }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "dependencies": {
-          "TesseractOcrMaui.IOS": "1.2.3"
-        },
-        "compile": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "TesseractOcrMaui.IOS/1.2.3": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.dll": {
-            "related": ".resources/manifest;.resources/tesseract.xcframework/Info.plist;.resources/tesseract.xcframework/ios-arm64/tesseract.framework/tesseract;.resources/tesseract.xcframework/ios-arm64_x86_64-simulator/tesseract.framework/tesseract;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.dll": {
-            "related": ".resources/manifest;.resources/tesseract.xcframework/Info.plist;.resources/tesseract.xcframework/ios-arm64/tesseract.framework/tesseract;.resources/tesseract.xcframework/ios-arm64_x86_64-simulator/tesseract.framework/tesseract;.xml"
-          }
         }
       }
     },
@@ -15967,35 +15773,6 @@
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
         }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "dependencies": {
-          "TesseractOcrMaui.IOS": "1.2.3"
-        },
-        "compile": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "TesseractOcrMaui.IOS/1.2.3": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.dll": {
-            "related": ".resources/manifest;.resources/tesseract.xcframework/Info.plist;.resources/tesseract.xcframework/ios-arm64/tesseract.framework/tesseract;.resources/tesseract.xcframework/ios-arm64_x86_64-simulator/tesseract.framework/tesseract;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.dll": {
-            "related": ".resources/manifest;.resources/tesseract.xcframework/Info.plist;.resources/tesseract.xcframework/ios-arm64/tesseract.framework/tesseract;.resources/tesseract.xcframework/ios-arm64_x86_64-simulator/tesseract.framework/tesseract;.xml"
-          }
-        }
       }
     },
     "net9.0-ios26.0/win10-x64": {
@@ -16397,35 +16174,6 @@
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
-        }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "dependencies": {
-          "TesseractOcrMaui.IOS": "1.2.3"
-        },
-        "compile": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "TesseractOcrMaui.IOS/1.2.3": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.dll": {
-            "related": ".resources/manifest;.resources/tesseract.xcframework/Info.plist;.resources/tesseract.xcframework/ios-arm64/tesseract.framework/tesseract;.resources/tesseract.xcframework/ios-arm64_x86_64-simulator/tesseract.framework/tesseract;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.dll": {
-            "related": ".resources/manifest;.resources/tesseract.xcframework/Info.plist;.resources/tesseract.xcframework/ios-arm64/tesseract.framework/tesseract;.resources/tesseract.xcframework/ios-arm64_x86_64-simulator/tesseract.framework/tesseract;.xml"
-          }
         }
       }
     },
@@ -16829,31 +16577,6 @@
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
         }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0/jpeg62.dll": {},
-          "lib/net9.0/leptonica-1.86.1.dll": {},
-          "lib/net9.0/libpng16.dll": {},
-          "lib/net9.0/tesseract55.dll": {},
-          "lib/net9.0/tiff.dll": {},
-          "lib/net9.0/z.dll": {}
-        },
-        "runtime": {
-          "lib/net9.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0/jpeg62.dll": {},
-          "lib/net9.0/leptonica-1.86.1.dll": {},
-          "lib/net9.0/libpng16.dll": {},
-          "lib/net9.0/tesseract55.dll": {},
-          "lib/net9.0/tiff.dll": {},
-          "lib/net9.0/z.dll": {}
-        }
       }
     },
     "net9.0-maccatalyst26.0/android-arm64": {
@@ -17255,31 +16978,6 @@
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
-        }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0/jpeg62.dll": {},
-          "lib/net9.0/leptonica-1.86.1.dll": {},
-          "lib/net9.0/libpng16.dll": {},
-          "lib/net9.0/tesseract55.dll": {},
-          "lib/net9.0/tiff.dll": {},
-          "lib/net9.0/z.dll": {}
-        },
-        "runtime": {
-          "lib/net9.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0/jpeg62.dll": {},
-          "lib/net9.0/leptonica-1.86.1.dll": {},
-          "lib/net9.0/libpng16.dll": {},
-          "lib/net9.0/tesseract55.dll": {},
-          "lib/net9.0/tiff.dll": {},
-          "lib/net9.0/z.dll": {}
         }
       }
     },
@@ -17683,34 +17381,9 @@
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
         }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0/jpeg62.dll": {},
-          "lib/net9.0/leptonica-1.86.1.dll": {},
-          "lib/net9.0/libpng16.dll": {},
-          "lib/net9.0/tesseract55.dll": {},
-          "lib/net9.0/tiff.dll": {},
-          "lib/net9.0/z.dll": {}
-        },
-        "runtime": {
-          "lib/net9.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0/jpeg62.dll": {},
-          "lib/net9.0/leptonica-1.86.1.dll": {},
-          "lib/net9.0/libpng16.dll": {},
-          "lib/net9.0/tesseract55.dll": {},
-          "lib/net9.0/tiff.dll": {},
-          "lib/net9.0/z.dll": {}
-        }
       }
     },
-    "net9.0-maccatalyst26.0/iossimulator-x64": {
+    "net9.0-maccatalyst26.0/iossimulator-arm64": {
       "Microsoft.Extensions.Configuration/9.0.8": {
         "type": "package",
         "dependencies": {
@@ -18109,31 +17782,6 @@
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
-        }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0/jpeg62.dll": {},
-          "lib/net9.0/leptonica-1.86.1.dll": {},
-          "lib/net9.0/libpng16.dll": {},
-          "lib/net9.0/tesseract55.dll": {},
-          "lib/net9.0/tiff.dll": {},
-          "lib/net9.0/z.dll": {}
-        },
-        "runtime": {
-          "lib/net9.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0/jpeg62.dll": {},
-          "lib/net9.0/leptonica-1.86.1.dll": {},
-          "lib/net9.0/libpng16.dll": {},
-          "lib/net9.0/tesseract55.dll": {},
-          "lib/net9.0/tiff.dll": {},
-          "lib/net9.0/z.dll": {}
         }
       }
     },
@@ -18537,31 +18185,6 @@
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
         }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0/jpeg62.dll": {},
-          "lib/net9.0/leptonica-1.86.1.dll": {},
-          "lib/net9.0/libpng16.dll": {},
-          "lib/net9.0/tesseract55.dll": {},
-          "lib/net9.0/tiff.dll": {},
-          "lib/net9.0/z.dll": {}
-        },
-        "runtime": {
-          "lib/net9.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0/jpeg62.dll": {},
-          "lib/net9.0/leptonica-1.86.1.dll": {},
-          "lib/net9.0/libpng16.dll": {},
-          "lib/net9.0/tesseract55.dll": {},
-          "lib/net9.0/tiff.dll": {},
-          "lib/net9.0/z.dll": {}
-        }
       }
     },
     "net9.0-maccatalyst26.0/win10-x64": {
@@ -18963,31 +18586,6 @@
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
-        }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0/jpeg62.dll": {},
-          "lib/net9.0/leptonica-1.86.1.dll": {},
-          "lib/net9.0/libpng16.dll": {},
-          "lib/net9.0/tesseract55.dll": {},
-          "lib/net9.0/tiff.dll": {},
-          "lib/net9.0/z.dll": {}
-        },
-        "runtime": {
-          "lib/net9.0/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0/jpeg62.dll": {},
-          "lib/net9.0/leptonica-1.86.1.dll": {},
-          "lib/net9.0/libpng16.dll": {},
-          "lib/net9.0/tesseract55.dll": {},
-          "lib/net9.0/tiff.dll": {},
-          "lib/net9.0/z.dll": {}
         }
       }
     },
@@ -19641,31 +19239,6 @@
             "rid": "win-x86"
           }
         }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-windows10.0.19041/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0-windows10.0.19041/jpeg62.dll": {},
-          "lib/net9.0-windows10.0.19041/leptonica-1.86.1.dll": {},
-          "lib/net9.0-windows10.0.19041/libpng16.dll": {},
-          "lib/net9.0-windows10.0.19041/tesseract55.dll": {},
-          "lib/net9.0-windows10.0.19041/tiff.dll": {},
-          "lib/net9.0-windows10.0.19041/z.dll": {}
-        },
-        "runtime": {
-          "lib/net9.0-windows10.0.19041/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0-windows10.0.19041/jpeg62.dll": {},
-          "lib/net9.0-windows10.0.19041/leptonica-1.86.1.dll": {},
-          "lib/net9.0-windows10.0.19041/libpng16.dll": {},
-          "lib/net9.0-windows10.0.19041/tesseract55.dll": {},
-          "lib/net9.0-windows10.0.19041/tiff.dll": {},
-          "lib/net9.0-windows10.0.19041/z.dll": {}
-        }
       }
     },
     "net9.0-windows10.0.19041/android-arm64": {
@@ -20255,31 +19828,6 @@
         "build": {
           "buildTransitive/Microsoft.WindowsAppSDK.props": {},
           "buildTransitive/Microsoft.WindowsAppSDK.targets": {}
-        }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-windows10.0.19041/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0-windows10.0.19041/jpeg62.dll": {},
-          "lib/net9.0-windows10.0.19041/leptonica-1.86.1.dll": {},
-          "lib/net9.0-windows10.0.19041/libpng16.dll": {},
-          "lib/net9.0-windows10.0.19041/tesseract55.dll": {},
-          "lib/net9.0-windows10.0.19041/tiff.dll": {},
-          "lib/net9.0-windows10.0.19041/z.dll": {}
-        },
-        "runtime": {
-          "lib/net9.0-windows10.0.19041/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0-windows10.0.19041/jpeg62.dll": {},
-          "lib/net9.0-windows10.0.19041/leptonica-1.86.1.dll": {},
-          "lib/net9.0-windows10.0.19041/libpng16.dll": {},
-          "lib/net9.0-windows10.0.19041/tesseract55.dll": {},
-          "lib/net9.0-windows10.0.19041/tiff.dll": {},
-          "lib/net9.0-windows10.0.19041/z.dll": {}
         }
       }
     },
@@ -20871,34 +20419,9 @@
           "buildTransitive/Microsoft.WindowsAppSDK.props": {},
           "buildTransitive/Microsoft.WindowsAppSDK.targets": {}
         }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-windows10.0.19041/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0-windows10.0.19041/jpeg62.dll": {},
-          "lib/net9.0-windows10.0.19041/leptonica-1.86.1.dll": {},
-          "lib/net9.0-windows10.0.19041/libpng16.dll": {},
-          "lib/net9.0-windows10.0.19041/tesseract55.dll": {},
-          "lib/net9.0-windows10.0.19041/tiff.dll": {},
-          "lib/net9.0-windows10.0.19041/z.dll": {}
-        },
-        "runtime": {
-          "lib/net9.0-windows10.0.19041/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0-windows10.0.19041/jpeg62.dll": {},
-          "lib/net9.0-windows10.0.19041/leptonica-1.86.1.dll": {},
-          "lib/net9.0-windows10.0.19041/libpng16.dll": {},
-          "lib/net9.0-windows10.0.19041/tesseract55.dll": {},
-          "lib/net9.0-windows10.0.19041/tiff.dll": {},
-          "lib/net9.0-windows10.0.19041/z.dll": {}
-        }
       }
     },
-    "net9.0-windows10.0.19041/iossimulator-x64": {
+    "net9.0-windows10.0.19041/iossimulator-arm64": {
       "Microsoft.Extensions.Configuration/9.0.8": {
         "type": "package",
         "dependencies": {
@@ -21485,31 +21008,6 @@
         "build": {
           "buildTransitive/Microsoft.WindowsAppSDK.props": {},
           "buildTransitive/Microsoft.WindowsAppSDK.targets": {}
-        }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-windows10.0.19041/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0-windows10.0.19041/jpeg62.dll": {},
-          "lib/net9.0-windows10.0.19041/leptonica-1.86.1.dll": {},
-          "lib/net9.0-windows10.0.19041/libpng16.dll": {},
-          "lib/net9.0-windows10.0.19041/tesseract55.dll": {},
-          "lib/net9.0-windows10.0.19041/tiff.dll": {},
-          "lib/net9.0-windows10.0.19041/z.dll": {}
-        },
-        "runtime": {
-          "lib/net9.0-windows10.0.19041/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0-windows10.0.19041/jpeg62.dll": {},
-          "lib/net9.0-windows10.0.19041/leptonica-1.86.1.dll": {},
-          "lib/net9.0-windows10.0.19041/libpng16.dll": {},
-          "lib/net9.0-windows10.0.19041/tesseract55.dll": {},
-          "lib/net9.0-windows10.0.19041/tiff.dll": {},
-          "lib/net9.0-windows10.0.19041/z.dll": {}
         }
       }
     },
@@ -22100,31 +21598,6 @@
         "build": {
           "buildTransitive/Microsoft.WindowsAppSDK.props": {},
           "buildTransitive/Microsoft.WindowsAppSDK.targets": {}
-        }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-windows10.0.19041/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0-windows10.0.19041/jpeg62.dll": {},
-          "lib/net9.0-windows10.0.19041/leptonica-1.86.1.dll": {},
-          "lib/net9.0-windows10.0.19041/libpng16.dll": {},
-          "lib/net9.0-windows10.0.19041/tesseract55.dll": {},
-          "lib/net9.0-windows10.0.19041/tiff.dll": {},
-          "lib/net9.0-windows10.0.19041/z.dll": {}
-        },
-        "runtime": {
-          "lib/net9.0-windows10.0.19041/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0-windows10.0.19041/jpeg62.dll": {},
-          "lib/net9.0-windows10.0.19041/leptonica-1.86.1.dll": {},
-          "lib/net9.0-windows10.0.19041/libpng16.dll": {},
-          "lib/net9.0-windows10.0.19041/tesseract55.dll": {},
-          "lib/net9.0-windows10.0.19041/tiff.dll": {},
-          "lib/net9.0-windows10.0.19041/z.dll": {}
         }
       }
     },
@@ -22725,31 +22198,6 @@
         "build": {
           "buildTransitive/Microsoft.WindowsAppSDK.props": {},
           "buildTransitive/Microsoft.WindowsAppSDK.targets": {}
-        }
-      },
-      "TesseractOcrMaui/1.5.2": {
-        "type": "package",
-        "compile": {
-          "lib/net9.0-windows10.0.19041/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0-windows10.0.19041/jpeg62.dll": {},
-          "lib/net9.0-windows10.0.19041/leptonica-1.86.1.dll": {},
-          "lib/net9.0-windows10.0.19041/libpng16.dll": {},
-          "lib/net9.0-windows10.0.19041/tesseract55.dll": {},
-          "lib/net9.0-windows10.0.19041/tiff.dll": {},
-          "lib/net9.0-windows10.0.19041/z.dll": {}
-        },
-        "runtime": {
-          "lib/net9.0-windows10.0.19041/TesseractOcrMaui.dll": {
-            "related": ".xml"
-          },
-          "lib/net9.0-windows10.0.19041/jpeg62.dll": {},
-          "lib/net9.0-windows10.0.19041/leptonica-1.86.1.dll": {},
-          "lib/net9.0-windows10.0.19041/libpng16.dll": {},
-          "lib/net9.0-windows10.0.19041/tesseract55.dll": {},
-          "lib/net9.0-windows10.0.19041/tiff.dll": {},
-          "lib/net9.0-windows10.0.19041/z.dll": {}
         }
       }
     }
@@ -24807,60 +24255,6 @@
         "tools/x86/GenXbf.dll"
       ]
     },
-    "TesseractOcrMaui/1.5.2": {
-      "sha512": "U8drIJRF1OCY/N61/XzYcnSa8Q6RFxKH/QcQzY9AhkpGxzIpPyVtCVtWWLkfl69BG/TyZU53oa6F3mp1g4JRfA==",
-      "type": "package",
-      "path": "tesseractocrmaui/1.5.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "README.md",
-        "lib/net9.0-android35.0/TesseractOcrMaui.aar",
-        "lib/net9.0-android35.0/TesseractOcrMaui.dll",
-        "lib/net9.0-android35.0/TesseractOcrMaui.xml",
-        "lib/net9.0-ios18.0/TesseractOcrMaui.dll",
-        "lib/net9.0-ios18.0/TesseractOcrMaui.xml",
-        "lib/net9.0-windows10.0.19041/TesseractOcrMaui.dll",
-        "lib/net9.0-windows10.0.19041/TesseractOcrMaui.xml",
-        "lib/net9.0-windows10.0.19041/jpeg62.dll",
-        "lib/net9.0-windows10.0.19041/leptonica-1.86.1.dll",
-        "lib/net9.0-windows10.0.19041/libpng16.dll",
-        "lib/net9.0-windows10.0.19041/tesseract55.dll",
-        "lib/net9.0-windows10.0.19041/tiff.dll",
-        "lib/net9.0-windows10.0.19041/z.dll",
-        "lib/net9.0/TesseractOcrMaui.dll",
-        "lib/net9.0/TesseractOcrMaui.xml",
-        "lib/net9.0/jpeg62.dll",
-        "lib/net9.0/leptonica-1.86.1.dll",
-        "lib/net9.0/libpng16.dll",
-        "lib/net9.0/tesseract55.dll",
-        "lib/net9.0/tiff.dll",
-        "lib/net9.0/z.dll",
-        "tesseractocrmaui.1.5.2.nupkg.sha512",
-        "tesseractocrmaui.nuspec"
-      ]
-    },
-    "TesseractOcrMaui.IOS/1.2.3": {
-      "sha512": "FM4fSaeI7bgur8cLQBqVz2jQzEv50pEv+LjHFb46GwRyrlhSdiZNq4N3uj9Poe4YuNXZ87B9WXx/9mZj5eMjlg==",
-      "type": "package",
-      "path": "tesseractocrmaui.ios/1.2.3",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "README.md",
-        "lib/18.0/TesseractOcrMaui.IOS.resources/tesseract.xcframework/Info.plist",
-        "lib/18.0/TesseractOcrMaui.IOS.resources/tesseract.xcframework/ios-arm64/tesseract.framework/tesseract",
-        "lib/18.0/TesseractOcrMaui.IOS.resources/tesseract.xcframework/ios-arm64_x86_64-simulator/tesseract.framework/tesseract",
-        "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.dll",
-        "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.resources/manifest",
-        "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.resources/tesseract.xcframework/Info.plist",
-        "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.resources/tesseract.xcframework/ios-arm64/tesseract.framework/tesseract",
-        "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.resources/tesseract.xcframework/ios-arm64_x86_64-simulator/tesseract.framework/tesseract",
-        "lib/net9.0-ios18.0/TesseractOcrMaui.IOS.xml",
-        "tesseractocrmaui.ios.1.2.3.nupkg.sha512",
-        "tesseractocrmaui.ios.nuspec"
-      ]
-    },
     "Xamarin.Android.Glide/4.16.0.12": {
       "sha512": "ReaxF/UeWqIMdg3NhfrVwugKy8UO++HUH6qCtECWwbyOAXtkgI1HEFg0uPf9mQMyKTHgF7dAQP1rAryvc54VyA==",
       "type": "package",
@@ -26722,25 +26116,21 @@
     "net9.0-android35.0": [
       "Microsoft.Extensions.Logging.Debug >= 9.0.8",
       "Microsoft.Maui.Controls >= 9.0.111",
-      "Microsoft.NET.ILLink.Tasks >= 9.0.17",
-      "TesseractOcrMaui >= 1.5.2"
+      "Microsoft.NET.ILLink.Tasks >= 9.0.17"
     ],
     "net9.0-ios26.0": [
       "Microsoft.Extensions.Logging.Debug >= 9.0.8",
       "Microsoft.Maui.Controls >= 9.0.111",
-      "Microsoft.NET.ILLink.Tasks >= 9.0.17",
-      "TesseractOcrMaui >= 1.5.2"
+      "Microsoft.NET.ILLink.Tasks >= 9.0.17"
     ],
     "net9.0-maccatalyst26.0": [
       "Microsoft.Extensions.Logging.Debug >= 9.0.8",
       "Microsoft.Maui.Controls >= 9.0.111",
-      "Microsoft.NET.ILLink.Tasks >= 9.0.17",
-      "TesseractOcrMaui >= 1.5.2"
+      "Microsoft.NET.ILLink.Tasks >= 9.0.17"
     ],
     "net9.0-windows10.0.19041": [
       "Microsoft.Extensions.Logging.Debug >= 9.0.8",
-      "Microsoft.Maui.Controls >= 9.0.111",
-      "TesseractOcrMaui >= 1.5.2"
+      "Microsoft.Maui.Controls >= 9.0.111"
     ]
   },
   "packageFolders": {
@@ -26823,10 +26213,6 @@
             "target": "Package",
             "version": "[9.0.17, )",
             "autoReferenced": true
-          },
-          "TesseractOcrMaui": {
-            "target": "Package",
-            "version": "[1.5.2, )"
           }
         },
         "imports": [
@@ -26866,10 +26252,6 @@
             "target": "Package",
             "version": "[9.0.17, )",
             "autoReferenced": true
-          },
-          "TesseractOcrMaui": {
-            "target": "Package",
-            "version": "[1.5.2, )"
           }
         },
         "imports": [
@@ -26909,10 +26291,6 @@
             "target": "Package",
             "version": "[9.0.17, )",
             "autoReferenced": true
-          },
-          "TesseractOcrMaui": {
-            "target": "Package",
-            "version": "[1.5.2, )"
           }
         },
         "imports": [
@@ -26947,10 +26325,6 @@
           "Microsoft.Maui.Controls": {
             "target": "Package",
             "version": "[9.0.111, )"
-          },
-          "TesseractOcrMaui": {
-            "target": "Package",
-            "version": "[1.5.2, )"
           }
         },
         "imports": [
@@ -26988,7 +26362,7 @@
       "android-x64": {
         "#import": []
       },
-      "iossimulator-x64": {
+      "iossimulator-arm64": {
         "#import": []
       },
       "maccatalyst-x64": {

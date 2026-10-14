@@ -14,7 +14,7 @@ namespace CalendarOcrApp.Core.Services
         {
             return Task.FromResult(new List<DeviceCalendarModel>());
         }
-        public Task AddEventAsync(IEnumerable<CalendarEventModel> events, long calendarId)
+        public Task AddEventAsync(IEnumerable<CalendarEventModel> events, string calendarId)
         {
             return Task.CompletedTask;
         }

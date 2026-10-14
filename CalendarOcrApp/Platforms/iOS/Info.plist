@@ -28,5 +28,11 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>La app necesita acceder a tus calendarios para que puedas elegir en cuál guardar los eventos detectados en la foto.</string>
+	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+	<string>La app añadirá a tu calendario los eventos detectados en la foto.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>La app necesita acceder a tus calendarios para guardar los eventos detectados en la foto.</string>
 </dict>
 </plist>

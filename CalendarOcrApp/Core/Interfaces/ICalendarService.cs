@@ -12,7 +12,7 @@ namespace CalendarOcrApp.Core.Interfaces
     public interface ICalendarService
     {
         Task<List<DeviceCalendarModel>> GetCalendarsAsync();
-        Task AddEventAsync(IEnumerable<CalendarEventModel> events,long calendarId);
+        Task AddEventAsync(IEnumerable<CalendarEventModel> events,string calendarId);
 
         Task OpenEventEditorAsync(CalendarEventModel calendarEvent);
     }
