@@ -8,8 +8,13 @@ namespace CalendarOcrApp.Core
         /// En el emulador de Android, el PC es 10.0.2.2, pero Android bloquea HTTP sin cifrar
         /// por defecto: es más fácil probar contra el backend ya desplegado con HTTPS.
         /// </summary>
+#if ANDROID
         public const string ApiBaseUrl = "http://10.0.2.2:5000/";
-
+#elif IOS
+        public const string ApiBaseUrl = "http://192.168.1.47:5000/";
+#else
+        public const string ApiBaseUrl = "http://localhost:5000/";
+#endif
         /// <summary>
         /// Debe coincidir con App__Token en el servidor. Es una barrera básica, no un secreto
         /// fuerte: cualquiera que descompile la app puede leerlo. Es suficiente para empezar;

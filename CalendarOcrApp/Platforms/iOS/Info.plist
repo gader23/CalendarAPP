@@ -51,5 +51,12 @@
 	<string>La app añadirá a tu calendario los eventos detectados en la foto.</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>La app necesita acceder a tus calendarios para guardar los eventos detectados en la foto.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>La app se conecta a un servidor de tu red local para leer el calendario de la foto.</string>
 </dict>
 </plist>
