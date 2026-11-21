@@ -8,31 +8,31 @@ using System.Threading.RateLimiting;
 
 // ---------------------------------------------------------------------------
 // Configuración (variables de entorno en el servidor, nunca en el repositorio):
-//   Anthropic__ApiKey  -> clave de la API
-//   App__Token         -> token compartido con la app (cabecera X-App-Token)
-//   Anthropic__Model   -> opcional; por defecto claude-haiku-5-5 (ver appsettings.json)
+//   App__Token     -> token compartido con la app (cabecera X-App-Token)
+//   Ollama__Url    -> opcional; por defecto http://localhost:11434
+//   Ollama__Model  -> opcional; por defecto gemma3:4b (ver appsettings.json)
 // ---------------------------------------------------------------------------
 
 var builder = WebApplication.CreateBuilder(args);
 
-var apiKey = builder.Configuration["Anthropic:ApiKey"];
-var model = builder.Configuration["Anthropic:Model"] ?? "claude-haiku-5-5";
+var ollamaUrl = builder.Configuration["Ollama:Url"] ?? "http://localhost:11434";
+var model = builder.Configuration["Ollama:Model"] ?? "gemma3:4b";
 var appToken = builder.Configuration["App:Token"];
 
-if (string.IsNullOrWhiteSpace(apiKey) || string.IsNullOrWhiteSpace(appToken))
+if (string.IsNullOrWhiteSpace(appToken))
 {
-    throw new InvalidOperationException(
-        "Faltan las variables de entorno Anthropic__ApiKey y/o App__Token.");
+    throw new InvalidOperationException("Falta la variable de entorno App__Token.");
 }
 
-const int MaxImageBytes = 5 * 1024 * 1024; // límite de la API por imagen
+const int MaxImageBytes = 5 * 1024 * 1024;
 
 builder.WebHost.ConfigureKestrel(o => o.Limits.MaxRequestBodySize = MaxImageBytes + 1024);
 
-builder.Services.AddHttpClient("anthropic", client =>
+builder.Services.AddHttpClient("ollama", client =>
 {
-    client.BaseAddress = new Uri("https://api.anthropic.com/");
-    client.Timeout = TimeSpan.FromSeconds(60);
+    client.BaseAddress = new Uri(ollamaUrl);
+    // En la GTX 1050 una foto tarda ~30 s, y ~60 s si el modelo tiene que cargarse.
+    client.Timeout = TimeSpan.FromSeconds(180);
 });
 
 // Máximo 10 peticiones por minuto y por IP. Si el servidor está detrás de un proxy,
@@ -51,6 +51,9 @@ builder.Services.AddRateLimiter(options =>
 });
 
 var app = builder.Build();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.UseRateLimiter();
 
@@ -81,46 +84,35 @@ app.MapPost("/extract", async (
     if (ms.Length > MaxImageBytes)
         return Results.StatusCode(StatusCodes.Status413PayloadTooLarge);
 
-    // 4) Llamada al modelo de visión
+    // 4) Llamada al modelo de visión local (Ollama)
     var payload = new
     {
         model,
-        max_tokens = 8000,
-        system = Prompts.System,
-        messages = new[]
+        stream = false,
+        keep_alive = -1,                 // mantener el modelo cargado en memoria
+        format = Prompts.Schema,         // obliga al modelo a devolver este JSON
+        options = new { temperature = 0 },
+        messages = new object[]
         {
+            new { role = "system", content = Prompts.System },
             new
             {
                 role = "user",
-                content = new object[]
-                {
-                    new
-                    {
-                        type = "image",
-                        source = new
-                        {
-                            type = "base64",
-                            media_type = mediaType,
-                            data = Convert.ToBase64String(ms.ToArray())
-                        }
-                    },
-                    new { type = "text", text = Prompts.User }
-                }
+                content = Prompts.User,
+                images = new[] { Convert.ToBase64String(ms.ToArray()) }
             }
         }
     };
 
-    using var request = new HttpRequestMessage(HttpMethod.Post, "v1/messages")
+    using var request = new HttpRequestMessage(HttpMethod.Post, "api/chat")
     {
         Content = JsonContent.Create(payload)
     };
-    request.Headers.Add("x-api-key", apiKey);
-    request.Headers.Add("anthropic-version", "2023-06-01");
 
     string responseBody;
     try
     {
-        using var upstream = await httpFactory.CreateClient("anthropic").SendAsync(request, ct);
+        using var upstream = await httpFactory.CreateClient("ollama").SendAsync(request, ct);
         responseBody = await upstream.Content.ReadAsStringAsync(ct);
 
         if (!upstream.IsSuccessStatusCode)
@@ -161,6 +153,38 @@ record ExtractionResponse(int? Month, int? Year, List<ExtractedEvent>? Events);
 
 static class Prompts
 {
+    private static readonly object NullableString = new { type = new[] { "string", "null" } };
+    private static readonly object NullableInt = new { type = new[] { "integer", "null" } };
+
+    /// <summary>Esquema JSON que Ollama impone a la respuesta del modelo.</summary>
+    public static readonly object Schema = new
+    {
+        type = "object",
+        properties = new
+        {
+            month = NullableInt,
+            year = NullableInt,
+            events = new
+            {
+                type = "array",
+                items = new
+                {
+                    type = "object",
+                    properties = new
+                    {
+                        day = new { type = "integer" },
+                        title = new { type = "string" },
+                        startTime = NullableString,
+                        endTime = NullableString,
+                        allDay = new { type = "boolean" }
+                    },
+                    required = new[] { "day", "title", "startTime", "endTime", "allDay" }
+                }
+            }
+        },
+        required = new[] { "month", "year", "events" }
+    };
+
     public const string System =
         "Eres un extractor de eventos a partir de fotos de calendarios físicos de papel. " +
         "Respondes SIEMPRE y ÚNICAMENTE con un objeto JSON válido, sin texto adicional " +
@@ -223,25 +247,17 @@ static partial class Helpers
         return x.Length == y.Length && CryptographicOperations.FixedTimeEquals(x, y);
     }
 
-    /// <summary>Extrae el primer bloque de texto de la respuesta de la API.</summary>
+    /// <summary>Extrae el texto de la respuesta de Ollama (message.content).</summary>
     public static string? GetResponseText(string responseBody)
     {
         try
         {
             using var doc = JsonDocument.Parse(responseBody);
 
-            if (doc.RootElement.TryGetProperty("content", out var content) &&
-                content.ValueKind == JsonValueKind.Array)
+            if (doc.RootElement.TryGetProperty("message", out var message) &&
+                message.TryGetProperty("content", out var content))
             {
-                foreach (var block in content.EnumerateArray())
-                {
-                    if (block.TryGetProperty("type", out var type) &&
-                        type.GetString() == "text" &&
-                        block.TryGetProperty("text", out var text))
-                    {
-                        return text.GetString();
-                    }
-                }
+                return content.GetString();
             }
         }
         catch (JsonException)
