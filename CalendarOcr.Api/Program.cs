@@ -141,6 +141,41 @@ app.MapPost("/extract", async (
 })
 .RequireRateLimiting("extract");
 
+// Recibe los eventos ya revisados por el usuario y devuelve un archivo .ics.
+// Se llama con un <form> normal (no fetch) para que Safari en iPhone abra
+// directamente la pantalla "Añadir todo al Calendario".
+app.MapPost("/ics", async (HttpContext ctx) =>
+{
+    var form = await ctx.Request.ReadFormAsync();
+
+    if (!Helpers.FixedTimeEquals(form["token"].ToString(), appToken))
+        return Results.Unauthorized();
+
+    IcsRequest? data;
+    try
+    {
+        data = JsonSerializer.Deserialize<IcsRequest>(form["data"].ToString(), Helpers.WebJson);
+    }
+    catch (JsonException)
+    {
+        return Results.BadRequest("Datos no válidos.");
+    }
+
+    if (data is null || data.Month is < 1 or > 12 || data.Year is < 2000 or > 2100)
+        return Results.BadRequest("Mes o año no válidos.");
+
+    var clean = Helpers.Sanitize(new ExtractionResponse(data.Month, data.Year, data.Events));
+    if (clean.Events is null || clean.Events.Count == 0)
+        return Results.BadRequest("No hay eventos que añadir.");
+
+    var ics = Helpers.BuildIcs(data.Year, data.Month, clean.Events);
+
+    ctx.Response.Headers.ContentDisposition = "inline; filename=\"eventos.ics\"";
+    return Results.Text(ics, "text/calendar; charset=utf-8");
+})
+.DisableAntiforgery()
+.RequireRateLimiting("extract");
+
 app.Run();
 
 // ---------------------------------------------------------------------------
@@ -150,6 +185,8 @@ app.Run();
 record ExtractedEvent(int Day, string Title, string? StartTime, string? EndTime, bool AllDay);
 
 record ExtractionResponse(int? Month, int? Year, List<ExtractedEvent>? Events);
+
+record IcsRequest(int Month, int Year, List<ExtractedEvent>? Events);
 
 static class Prompts
 {
@@ -315,6 +352,74 @@ static partial class Helpers
 
         return new ExtractionResponse(month, year, events);
     }
+
+    public static JsonSerializerOptions WebJson => JsonOptions;
+
+    /// <summary>Genera un calendario iCalendar (RFC 5545) con los eventos.</summary>
+    public static string BuildIcs(int year, int month, List<ExtractedEvent> events)
+    {
+        var sb = new StringBuilder();
+        // Las líneas largas se "pliegan" (salto + espacio), como pide el estándar
+        void Line(string s)
+        {
+            const int max = 60;
+            for (int i = 0; i < s.Length; i += max)
+            {
+                if (i > 0) sb.Append(' ');
+                sb.Append(s, i, Math.Min(max, s.Length - i)).Append("\r\n");
+            }
+        }
+
+        Line("BEGIN:VCALENDAR");
+        Line("VERSION:2.0");
+        Line("PRODID:-//CalendarOcr//ES");
+        Line("CALSCALE:GREGORIAN");
+
+        var stamp = DateTime.UtcNow.ToString("yyyyMMdd'T'HHmmss'Z'");
+
+        foreach (var e in events)
+        {
+            // Descarta días que no existen en ese mes (p. ej. 31 de abril)
+            if (e.Day > DateTime.DaysInMonth(year, month))
+                continue;
+
+            var date = new DateTime(year, month, e.Day);
+
+            Line("BEGIN:VEVENT");
+            Line($"UID:{Guid.NewGuid()}@calendarocr");
+            Line($"DTSTAMP:{stamp}");
+
+            if (e.AllDay || e.StartTime is null)
+            {
+                Line($"DTSTART;VALUE=DATE:{date:yyyyMMdd}");
+                Line($"DTEND;VALUE=DATE:{date.AddDays(1):yyyyMMdd}");
+            }
+            else
+            {
+                // Hora "flotante" (sin zona): el teléfono la interpreta como hora local
+                var start = date.Add(TimeSpan.Parse(e.StartTime));
+                var end = e.EndTime is not null ? date.Add(TimeSpan.Parse(e.EndTime)) : start.AddHours(1);
+                if (end <= start)
+                    end = start.AddHours(1);
+
+                Line($"DTSTART:{start:yyyyMMdd'T'HHmmss}");
+                Line($"DTEND:{end:yyyyMMdd'T'HHmmss}");
+            }
+
+            Line($"SUMMARY:{EscapeIcs(e.Title)}");
+            Line("END:VEVENT");
+        }
+
+        Line("END:VCALENDAR");
+        return sb.ToString();
+    }
+
+    private static string EscapeIcs(string text) =>
+        text.Replace("\\", "\\\\")
+            .Replace(";", "\\;")
+            .Replace(",", "\\,")
+            .Replace("\r\n", "\\n")
+            .Replace("\n", "\\n");
 
     private static string? ValidTime(string? value) =>
         value is not null && TimeRegex().IsMatch(value) ? value : null;

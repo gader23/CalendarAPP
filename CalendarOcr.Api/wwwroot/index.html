@@ -4,71 +4,181 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Calendario a iPhone</title>
+  <style>
+    body { font-family: -apple-system, system-ui, sans-serif; margin: 0; padding: 16px; max-width: 640px; margin-inline: auto; background: #f5f5f7; color: #1d1d1f; }
+    h1 { font-size: 1.4rem; }
+    input, select, button { font: inherit; font-size: 16px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+    button { background: #0071e3; color: #fff; border: none; cursor: pointer; }
+    button.secundario { background: #e8e8ed; color: #1d1d1f; }
+    button.borrar { background: #ff3b30; padding: 6px 10px; }
+    #preview { max-width: 100%; border-radius: 8px; margin-top: 12px; }
+    #estado { font-weight: 600; }
+    .fila { display: flex; gap: 8px; align-items: center; }
+    .evento { background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 10px; display: grid; gap: 8px; }
+    .evento .titulo { width: 100%; }
+    .evento .dia { width: 70px; }
+    .evento input[type=time] { flex: 1; }
+    .oculto { display: none !important; }
+    #editor { margin-top: 16px; }
+    #acciones { display: grid; gap: 8px; margin-top: 12px; }
+  </style>
 </head>
 <body>
   <h1>Calendario a iPhone</h1>
 
-  <input id="codigo" type="password" placeholder="Codigo de acceso">
+  <input id="codigo" type="password" placeholder="Código de acceso" style="width:100%">
   <br><br>
   <input id="file" type="file" accept="image/*">
-  <br><br>
-  <img id="preview" style="max-width:100%">
+  <img id="preview" class="oculto" alt="">
   <p id="estado"></p>
-  <pre id="resultado"></pre>
+
+  <section id="editor" class="oculto">
+    <div class="fila">
+      <label>Mes <select id="mes"></select></label>
+      <label>Año <input id="anio" type="number" min="2000" max="2100" style="width:90px"></label>
+    </div>
+    <p style="font-size:.9rem;color:#666">Revisa los eventos y corrige lo que haga falta.</p>
+
+    <div id="eventos"></div>
+
+    <div id="acciones">
+      <button type="button" class="secundario" id="nuevo">+ Añadir evento</button>
+      <button type="button" id="enviar">Añadir al calendario</button>
+    </div>
+  </section>
+
+  <!-- Formulario oculto: se envía de forma normal para que el iPhone abra el .ics -->
+  <form id="formIcs" method="post" action="/ics" class="oculto">
+    <input type="hidden" name="token">
+    <input type="hidden" name="data">
+  </form>
 
   <script>
-    const file = document.getElementById("file");
-    const preview = document.getElementById("preview");
-    const codigo = document.getElementById("codigo");
-    const estado = document.getElementById("estado");
-    const resultado = document.getElementById("resultado");
+    const $ = id => document.getElementById(id);
+    const file = $("file"), preview = $("preview"), codigo = $("codigo");
+    const estado = $("estado"), editor = $("editor"), lista = $("eventos");
+    const mes = $("mes"), anio = $("anio");
 
-    //funcion para devolver la imagen como jpeg y reducirla
-    async function reducir(foto,maximo = 1280)
-    {
-      const imagen = await createImageBitmap(foto, {imageOrientation: "from-image"});
-      const escala = Math.min(1,maximo/Math.max(imagen.width,imagen.height));
+    const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio",
+                   "agosto","septiembre","octubre","noviembre","diciembre"];
+    MESES.forEach((m, i) => mes.add(new Option(m, i + 1)));
 
+    // Recordar el código en este navegador
+    try { codigo.value = localStorage.getItem("codigo") || ""; } catch {}
+    codigo.onchange = () => { try { localStorage.setItem("codigo", codigo.value); } catch {} };
+
+    // Reduce la foto y la devuelve como JPEG
+    async function reducir(foto, maximo = 1280) {
+      const imagen = await createImageBitmap(foto, { imageOrientation: "from-image" });
+      const escala = Math.min(1, maximo / Math.max(imagen.width, imagen.height));
       const lienzo = document.createElement("canvas");
       lienzo.width = Math.round(imagen.width * escala);
       lienzo.height = Math.round(imagen.height * escala);
       lienzo.getContext("2d").drawImage(imagen, 0, 0, lienzo.width, lienzo.height);
-
-      return new Promise(resolve => lienzo.toBlob(resolve,"image/jpeg", 0.82));
+      return new Promise(resolve => lienzo.toBlob(resolve, "image/jpeg", 0.82));
     }
 
-    file.onchange = async() => {
-      const foto = file.files[0];
-      if(!foto) return;
-      preview.src = URL.createObjectURL(foto);
+    // Crea la tarjeta editable de un evento
+    function anadirEvento(ev = {}) {
+      const div = document.createElement("div");
+      div.className = "evento";
+      div.innerHTML = `
+        <div class="fila">
+          <label>Día <input class="dia" type="number" min="1" max="31"></label>
+          <label style="margin-left:auto"><input class="todoDia" type="checkbox"> Todo el día</label>
+          <button type="button" class="borrar" title="Quitar">✕</button>
+        </div>
+        <input class="titulo" type="text" placeholder="Título">
+        <div class="fila horas">
+          <input class="inicio" type="time"> – <input class="fin" type="time">
+        </div>`;
 
-      estado.textContent = "Leyendo Calendario...";
-      resultado.textContent = "";
+      const q = s => div.querySelector(s);
+      q(".dia").value = ev.day ?? "";
+      q(".titulo").value = ev.title ?? "";
+      q(".inicio").value = ev.startTime ?? "";
+      q(".fin").value = ev.endTime ?? "";
+      q(".todoDia").checked = ev.allDay ?? !ev.startTime;
+
+      const actualizarHoras = () => q(".horas").classList.toggle("oculto", q(".todoDia").checked);
+      q(".todoDia").onchange = actualizarHoras;
+      actualizarHoras();
+
+      q(".borrar").onclick = () => div.remove();
+      lista.appendChild(div);
+    }
+
+    function leerEventos() {
+      return [...lista.querySelectorAll(".evento")].map(div => {
+        const q = s => div.querySelector(s);
+        const allDay = q(".todoDia").checked || !q(".inicio").value;
+        return {
+          day: parseInt(q(".dia").value, 10),
+          title: q(".titulo").value.trim(),
+          startTime: allDay ? null : q(".inicio").value,
+          endTime: allDay || !q(".fin").value ? null : q(".fin").value,
+          allDay
+        };
+      });
+    }
+
+    file.onchange = async () => {
+      const foto = file.files[0];
+      if (!foto) return;
+
+      preview.src = URL.createObjectURL(foto);
+      preview.classList.remove("oculto");
+      editor.classList.add("oculto");
+      lista.innerHTML = "";
 
       try {
-
         const reducida = await reducir(foto);
         estado.textContent = "Leyendo con la IA (unos 30 segundos)...";
-        
+
         const respuesta = await fetch("/extract", {
           method: "POST",
-          headers: {
-            "X-App-Token": codigo.value,
-            "Content-Type": "image/jpeg"
-          },
+          headers: { "X-App-Token": codigo.value, "Content-Type": "image/jpeg" },
           body: reducida
         });
 
-        if(!respuesta.ok) {
-          estado.textContent = "Error " + respuesta.status;
-          return;
-        }
+        if (respuesta.status === 401) { estado.textContent = "Código de acceso incorrecto."; return; }
+        if (!respuesta.ok) { estado.textContent = "Error " + respuesta.status; return; }
+
         const datos = await respuesta.json();
-        estado.textContent = "Listo";
-        resultado.textContent = JSON.stringify(datos, null, 2);
-      } catch(e){
-        estado.textContent ="Error: " +e.message;
+        const hoy = new Date();
+        mes.value = datos.month ?? (hoy.getMonth() + 1);
+        anio.value = datos.year ?? hoy.getFullYear();
+
+        (datos.events ?? []).forEach(anadirEvento);
+        if (!datos.events?.length) anadirEvento();
+
+        estado.textContent = datos.events?.length
+          ? `Encontrados ${datos.events.length} evento(s). Revisa y corrige.`
+          : "No se encontraron eventos. Puedes añadirlos a mano.";
+        if (datos.month == null) estado.textContent += " No se veía el mes: compruébalo.";
+        editor.classList.remove("oculto");
+      } catch (e) {
+        estado.textContent = "Error: " + e.message;
       }
+    };
+
+    $("nuevo").onclick = () => anadirEvento();
+
+    $("enviar").onclick = () => {
+      const eventos = leerEventos();
+      const diasMes = new Date(+anio.value, +mes.value, 0).getDate();
+
+      const malo = eventos.find(e => !e.title || !(e.day >= 1 && e.day <= diasMes));
+      if (malo) {
+        alert(`Revisa los eventos: todos necesitan título y un día entre 1 y ${diasMes}.`);
+        return;
+      }
+      if (!eventos.length) { alert("No hay eventos que añadir."); return; }
+
+      const form = $("formIcs");
+      form.token.value = codigo.value;
+      form.data.value = JSON.stringify({ month: +mes.value, year: +anio.value, events: eventos });
+      form.submit();
     };
   </script>
 </body>
